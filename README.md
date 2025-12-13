@@ -1,0 +1,1 @@
+# DemoApi_TypeGen_NSwag_Starter
