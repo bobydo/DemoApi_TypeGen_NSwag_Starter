@@ -1,0 +1,108 @@
+{
+  "folders": [
+    {
+      "name": "DemoApi (Backend)",
+      "path": "DemoApi"
+    },
+    {
+      "name": "Frontend (Angular)",
+      "path": "frontend"
+    },
+    {
+      "name": "Root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/bin": true,
+      "**/obj": true,
+      "**/.angular": true,
+      "**/dist": true
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[csharp]": {
+      "editor.defaultFormatter": "ms-dotnettools.csharp"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-dotnettools.csharp",
+      "ms-dotnettools.csdevkit",
+      "angular.ng-template",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "humao.rest-client"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch API",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder:DemoApi (Backend)}/bin/Debug/net8.0/DemoApi.dll",
+        "args": [],
+        "cwd": "${workspaceFolder:DemoApi (Backend)}",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+          "uriFormat": "%s/swagger"
+        },
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      {
+        "name": "Launch Angular",
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "npm: start - frontend",
+        "url": "http://localhost:4200",
+        "webRoot": "${workspaceFolder:Frontend (Angular)}"
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Full Stack",
+        "configurations": ["Launch API", "Launch Angular"]
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build",
+          "${workspaceFolder:DemoApi (Backend)}/DemoApi.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "Generate API Client",
+        "type": "shell",
+        "command": "./generate.sh",
+        "options": {
+          "cwd": "${workspaceFolder:Root}"
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
+}

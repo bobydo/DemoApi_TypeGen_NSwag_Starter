@@ -2,6 +2,12 @@
 
 A comprehensive starter project demonstrating how to use **TypeGen** to keep frontend models in sync with C# DTOs, and **NSwag** to generate typed Angular API clients from ASP.NET Core controllers.
 
+## 🚀 Quick Links
+
+- **[Quick Start Guide](QUICKSTART.md)** - Get started in 5 minutes
+- **[Setup Guide](SETUP_GUIDE.md)** - Detailed configuration and troubleshooting
+- **[VS Code Workspace](DemoApi_TypeGen_NSwag_Starter.code-workspace)** - Open the project in VS Code
+
 ## Overview
 
 This project showcases a complete workflow for maintaining type safety between a .NET backend and an Angular frontend:
