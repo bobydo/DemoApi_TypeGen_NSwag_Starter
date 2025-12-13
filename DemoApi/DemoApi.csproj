@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.22" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-    <PackageReference Include="TypeGen" Version="5.4.2" />
+    <PackageReference Include="TypeGen" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

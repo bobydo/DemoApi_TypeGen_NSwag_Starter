@@ -25,12 +25,12 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.error = null;
     
-    this.apiClient.getUsers().subscribe({
-      next: (users) => {
+    this.apiClient.users_GetUsers().subscribe({
+      next: (users: User[]) => {
         this.users = users;
         this.loading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         this.error = 'Failed to load users: ' + err.message;
         this.loading = false;
       }

@@ -27,7 +27,7 @@ export class ApiClient {
         this.baseUrl = baseUrl ?? "http://localhost:5555";
     }
 
-    getUsers(): Observable<User[]> {
+    users_GetUsers(): Observable<User[]> {
         let url_ = this.baseUrl + "/api/Users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -40,11 +40,11 @@ export class ApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetUsers(response_);
+            return this.processUsers_GetUsers(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetUsers(response_ as any);
+                    return this.processUsers_GetUsers(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<User[]>;
                 }
@@ -53,7 +53,7 @@ export class ApiClient {
         }));
     }
 
-    protected processGetUsers(response: HttpResponseBase): Observable<User[]> {
+    protected processUsers_GetUsers(response: HttpResponseBase): Observable<User[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -82,7 +82,7 @@ export class ApiClient {
         return _observableOf(null as any);
     }
 
-    createUser(request: CreateUserRequest): Observable<User> {
+    users_CreateUser(request: CreateUserRequest): Observable<User> {
         let url_ = this.baseUrl + "/api/Users";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -99,11 +99,11 @@ export class ApiClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateUser(response_);
+            return this.processUsers_CreateUser(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateUser(response_ as any);
+                    return this.processUsers_CreateUser(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<User>;
                 }
@@ -112,7 +112,7 @@ export class ApiClient {
         }));
     }
 
-    protected processCreateUser(response: HttpResponseBase): Observable<User> {
+    protected processUsers_CreateUser(response: HttpResponseBase): Observable<User> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -134,7 +134,7 @@ export class ApiClient {
         return _observableOf(null as any);
     }
 
-    getUser(id: number): Observable<User> {
+    users_GetUser(id: number): Observable<User> {
         let url_ = this.baseUrl + "/api/Users/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -150,11 +150,11 @@ export class ApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetUser(response_);
+            return this.processUsers_GetUser(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetUser(response_ as any);
+                    return this.processUsers_GetUser(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<User>;
                 }
@@ -163,7 +163,7 @@ export class ApiClient {
         }));
     }
 
-    protected processGetUser(response: HttpResponseBase): Observable<User> {
+    protected processUsers_GetUser(response: HttpResponseBase): Observable<User> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -185,7 +185,7 @@ export class ApiClient {
         return _observableOf(null as any);
     }
 
-    deleteUser(id: number): Observable<FileResponse> {
+    users_DeleteUser(id: number): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/Users/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -201,11 +201,11 @@ export class ApiClient {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteUser(response_);
+            return this.processUsers_DeleteUser(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteUser(response_ as any);
+                    return this.processUsers_DeleteUser(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<FileResponse>;
                 }
@@ -214,7 +214,7 @@ export class ApiClient {
         }));
     }
 
-    protected processDeleteUser(response: HttpResponseBase): Observable<FileResponse> {
+    protected processUsers_DeleteUser(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -239,22 +239,8 @@ export class ApiClient {
         }
         return _observableOf(null as any);
     }
-}
 
-@Injectable({
-    providedIn: 'root'
-})
-export class ApiClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ?? "http://localhost:5555";
-    }
-
-    getWeatherForecasts(): Observable<WeatherForecast[]> {
+    weatherForecast_GetWeatherForecasts(): Observable<WeatherForecast[]> {
         let url_ = this.baseUrl + "/api/WeatherForecast";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -267,11 +253,11 @@ export class ApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetWeatherForecasts(response_);
+            return this.processWeatherForecast_GetWeatherForecasts(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetWeatherForecasts(response_ as any);
+                    return this.processWeatherForecast_GetWeatherForecasts(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<WeatherForecast[]>;
                 }
@@ -280,7 +266,7 @@ export class ApiClient {
         }));
     }
 
-    protected processGetWeatherForecasts(response: HttpResponseBase): Observable<WeatherForecast[]> {
+    protected processWeatherForecast_GetWeatherForecasts(response: HttpResponseBase): Observable<WeatherForecast[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -309,7 +295,7 @@ export class ApiClient {
         return _observableOf(null as any);
     }
 
-    getWeatherForecast(id: number): Observable<WeatherForecast> {
+    weatherForecast_GetWeatherForecast(id: number): Observable<WeatherForecast> {
         let url_ = this.baseUrl + "/api/WeatherForecast/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -325,11 +311,11 @@ export class ApiClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetWeatherForecast(response_);
+            return this.processWeatherForecast_GetWeatherForecast(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetWeatherForecast(response_ as any);
+                    return this.processWeatherForecast_GetWeatherForecast(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<WeatherForecast>;
                 }
@@ -338,7 +324,7 @@ export class ApiClient {
         }));
     }
 
-    protected processGetWeatherForecast(response: HttpResponseBase): Observable<WeatherForecast> {
+    protected processWeatherForecast_GetWeatherForecast(response: HttpResponseBase): Observable<WeatherForecast> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
