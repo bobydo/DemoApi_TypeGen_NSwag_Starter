@@ -1,0 +1,21 @@
+{
+  "assemblies": [
+    "DemoApi.dll"
+  ],
+  "fileNameConversions": [
+    "PascalCaseToDashes"
+  ],
+  "typeNameConversions": [
+    "PascalCaseToCamelCase"
+  ],
+  "propertyNameConversions": [
+    "PascalCaseToCamelCase"
+  ],
+  "enumValueNameConversions": [
+    "UnderscoreCaseToCamelCase"
+  ],
+  "outputPath": "../frontend/src/app/models",
+  "createIndexFile": true,
+  "csNullableTranslation": "null",
+  "useDefaultExport": false
+}
