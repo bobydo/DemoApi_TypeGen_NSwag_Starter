@@ -95,3 +95,9 @@ providers: [
 ## Security Note
 
 CORS (Cross-Origin Resource Sharing) is configured in the API to allow the Angular app on `http://localhost:4200` to make requests to the API on `http://localhost:5098`. In production, update the CORS policy in `Program.cs` to only allow your actual frontend domain (e.g., `https://yourdomain.com`) instead of localhost for security.
+
+## Screenshot
+
+![Angular Client Running](images/app-screenshot.png)
+
+*Angular client successfully connected to the .NET API, displaying student data*

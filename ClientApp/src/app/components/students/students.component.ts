@@ -22,13 +22,13 @@ export class StudentsComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.studentsService.students_GetStudents()
+    this.studentsService.getStudents()
       .subscribe({
-        next: (data) => {
+        next: (data: StudentDto[]) => {
           this.students = data;
           this.loading = false;
         },
-        error: (err) => {
+        error: (err: any) => {
           this.error = 'Failed to load students';
           this.loading = false;
           console.error('Error loading students:', err);

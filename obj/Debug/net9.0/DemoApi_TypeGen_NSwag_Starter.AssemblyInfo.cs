@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67c2c4e8c239eadbf761c78db4e0137594b442a9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02f9fbd6c1a5c92fbe024dafa82b169f85f4f745")]
 [assembly: System.Reflection.AssemblyProductAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
