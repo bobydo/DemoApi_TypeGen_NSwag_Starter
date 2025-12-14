@@ -29,5 +29,12 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder.Property(a => a.Country)
             .IsRequired()
             .HasMaxLength(100);
+
+        // Relationship: Each Address belongs to one Student
+        // When Student is deleted, all its Addresses are automatically deleted (cascade)
+        builder.HasOne(a => a.Student)
+            .WithMany(s => s.Addresses)
+            .HasForeignKey(a => a.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
