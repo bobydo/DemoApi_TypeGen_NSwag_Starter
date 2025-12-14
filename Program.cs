@@ -25,6 +25,7 @@ builder.Services.AddControllers();
 
 // Your services
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 // Swagger (for NSwag / testing)
 builder.Services.AddEndpointsApiExplorer();

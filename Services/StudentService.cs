@@ -47,20 +47,34 @@ public class StudentService : IStudentService
         return student;
     }
 
-    public async Task<StudentDto> CreateStudentAsync(StudentDto studentDto)
+    public async Task<StudentDto> CreateStudentAsync(CreateStudentRequest request)
     {
+        // Create student with addresses in a single transaction
         var student = new Student
         {
-            StudentNo = studentDto.StudentNo,
-            Name = studentDto.Name,
-            Active = studentDto.Active
+            StudentNo = request.StudentNo,
+            Name = request.Name,
+            Active = request.Active,
+            Addresses = request.Addresses.Select(a => new Address
+            {
+                Street = a.Street,
+                City = a.City,
+                Province = a.Province,
+                PostalCode = a.PostalCode,
+                Country = a.Country
+            }).ToList()
         };
 
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
 
-        studentDto.StudentId = student.StudentId;
-        return studentDto;
+        return new StudentDto
+        {
+            StudentId = student.StudentId,
+            StudentNo = student.StudentNo,
+            Name = student.Name,
+            Active = student.Active
+        };
     }
 
     public async Task<StudentDto?> UpdateStudentAsync(int id, StudentDto studentDto)
