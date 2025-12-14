@@ -1,6 +1,13 @@
+using Demo.Api.Data;
 using Demo.Api.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Database
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // CORS - Allow Angular app to call the API
 builder.Services.AddCors(options =>

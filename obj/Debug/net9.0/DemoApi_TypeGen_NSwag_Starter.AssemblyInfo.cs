@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("da6e5f64-13c1-4629-b98b-0f2f7606b3b8")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02f9fbd6c1a5c92fbe024dafa82b169f85f4f745")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0ccf838122bd5e898f456802db9b07860a4eca0b")]
 [assembly: System.Reflection.AssemblyProductAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

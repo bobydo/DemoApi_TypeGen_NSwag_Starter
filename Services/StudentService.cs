@@ -1,17 +1,98 @@
+using Demo.Api.Data;
+using Demo.Api.Data.Entities;
 using Demo.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Api.Services;
 
 public class StudentService : IStudentService
 {
-    public Task<List<StudentDto>> GetStudentsAsync()
+    private readonly ApplicationDbContext _context;
+
+    public StudentService(ApplicationDbContext context)
     {
-        var students = new List<StudentDto>
+        _context = context;
+    }
+
+    public async Task<List<StudentDto>> GetStudentsAsync()
+    {
+        var students = await _context.Students
+            .AsNoTracking()
+            .Select(s => new StudentDto
+            {
+                StudentId = s.StudentId,
+                StudentNo = s.StudentNo,
+                Name = s.Name,
+                Active = s.Active
+            })
+            .ToListAsync();
+
+        return students;
+    }
+
+    public async Task<StudentDto?> GetStudentByIdAsync(int id)
+    {
+        var student = await _context.Students
+            .AsNoTracking()
+            .Where(s => s.StudentId == id)
+            .Select(s => new StudentDto
+            {
+                StudentId = s.StudentId,
+                StudentNo = s.StudentNo,
+                Name = s.Name,
+                Active = s.Active
+            })
+            .FirstOrDefaultAsync();
+
+        return student;
+    }
+
+    public async Task<StudentDto> CreateStudentAsync(StudentDto studentDto)
+    {
+        var student = new Student
         {
-            new() { Id = 1, Name = "Alice", Active = true },
-            new() { Id = 2, Name = "Bob", Active = false }
+            StudentNo = studentDto.StudentNo,
+            Name = studentDto.Name,
+            Active = studentDto.Active
         };
 
-        return Task.FromResult(students);
+        _context.Students.Add(student);
+        await _context.SaveChangesAsync();
+
+        studentDto.StudentId = student.StudentId;
+        return studentDto;
+    }
+
+    public async Task<StudentDto?> UpdateStudentAsync(int id, StudentDto studentDto)
+    {
+        var student = await _context.Students.FindAsync(id);
+        if (student == null)
+            return null;
+
+        student.StudentNo = studentDto.StudentNo;
+        student.Name = studentDto.Name;
+        student.Active = studentDto.Active;
+
+        await _context.SaveChangesAsync();
+
+        return new StudentDto
+        {
+            StudentId = student.StudentId,
+            StudentNo = student.StudentNo,
+            Name = student.Name,
+            Active = student.Active
+        };
+    }
+
+    public async Task<bool> DeleteStudentAsync(int id)
+    {
+        var student = await _context.Students.FindAsync(id);
+        if (student == null)
+            return false;
+
+        _context.Students.Remove(student);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 }

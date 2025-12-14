@@ -101,3 +101,86 @@ CORS (Cross-Origin Resource Sharing) is configured in the API to allow the Angul
 ![Angular Client Running](images/app-screenshot.png)
 
 *Angular client successfully connected to the .NET API, displaying student data*
+
+## Entity Framework Core Setup
+
+### 1. Install Entity Framework Core Packages
+
+```bash
+# Install EF Core (compatible with .NET 9.0)
+dotnet add package Microsoft.EntityFrameworkCore --version 9.0.0
+# Install SQL Server provider
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 9.0.0
+# Install EF Core tools for migrations
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.0
+```
+
+### 2. Project Structure
+
+```
+Data/
+├─ Entities/              ← Database entities (Student, Address)
+├─ Configurations/        ← Fluent API configurations
+└─ ApplicationDbContext.cs
+```
+
+### 3. Configure Connection String (User Secrets)
+
+For security, store connection strings outside the project using User Secrets:
+
+```bash
+# Initialize User Secrets for the project
+dotnet user-secrets init
+
+# Set SQL Server connection string
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=YOUR_SERVER\\SQLEXPRESS;Database=XXX;Trusted_Connection=True;TrustServerCertificate=True;"
+
+<UserSecretsId>da6e5f64-13c1-4629-b98b-0f2f7606b3b8</UserSecretsId>
+
+notepad "C:\Users\baosh\AppData\Roaming\Microsoft\UserSecrets\da6e5f64-13c1-4629-b98b-0f2f7606b3b8\secrets.json"
+```
+
+**Note:** Replace `YOUR_SERVER` with your actual SQL Server instance name. User Secrets are stored in:
+- Windows: `%APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\`
+- macOS/Linux: `~/.microsoft/usersecrets/<user_secrets_id>/secrets.json`
+
+User Secrets are automatically loaded in Development mode and never committed to source control.
+
+### 4. Register DbContext in Program.cs
+
+```csharp
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+```
+
+
+### 5. Create and Apply Migrations
+
+```bash
+# Install EF Core CLI tools globally (if not already installed)
+dotnet tool install --global dotnet-ef --version 9.0.0
+
+# Create initial migration
+dotnet ef migrations add InitialCreate
+
+# Apply migrations to database (creates database and runs seed data)
+dotnet ef database update
+
+# List all applied migrations
+dotnet ef migrations list
+
+# Remove last migration (if not yet applied)
+dotnet ef migrations remove
+
+# Rollback all migrations (reset database)
+dotnet ef database update 0
+```
+
+**About __EFMigrationsHistory Table:**
+
+EF Core automatically creates a `__EFMigrationsHistory` table in your database to track which migrations have been applied. This ensures:
+- Migrations run only once
+- Seed data inserted during migration won't be duplicated
+- Multiple developers can sync database schema changes
+- You can safely run `dotnet ef database update` multiple times - it only applies new migrations
+
