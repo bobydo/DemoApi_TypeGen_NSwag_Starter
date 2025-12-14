@@ -1,0 +1,6 @@
+{
+  "output": "ClientApp/src/app/models",
+  "files": [ "Models/*.cs" ],
+  "namespace": "Models",
+  "style": { "useInterface": true }
+}

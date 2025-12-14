@@ -1,0 +1,15 @@
+{
+  "runtime": "Net80",
+  "documentGenerator": {
+    "aspNetCoreToOpenApi": {
+      "project": "Demo.Api.csproj"
+    }
+  },
+  "codeGenerators": {
+    "openApiToTypeScriptClient": {
+      "template": "Angular",
+      "output": "ClientApp/src/app/api/student-api.ts",
+      "className": "StudentApiClient"
+    }
+  }
+}
