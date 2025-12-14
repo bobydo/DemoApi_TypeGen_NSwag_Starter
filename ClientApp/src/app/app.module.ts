@@ -1,10 +1,9 @@
-// Example: How to configure the Angular module with the generated services
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { StudentsComponent } from './components/students';
+import { StudentsComponent } from './components/students/students.component';
 import { StudentsService } from './services';
 import { API_BASE_URL } from './core';
 

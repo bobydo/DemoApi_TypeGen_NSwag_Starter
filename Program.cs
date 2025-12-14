@@ -2,6 +2,17 @@ using Demo.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS - Allow Angular app to call the API
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Controllers
 builder.Services.AddControllers();
 
@@ -32,6 +43,8 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

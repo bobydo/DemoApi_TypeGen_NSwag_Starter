@@ -19,7 +19,7 @@ DemoApi/
 dotnet restore
 
 # Run the application with hot reload (auto-restart on file changes)
-dotnet watch run
+taskkill /F /IM DemoApi_TypeGen_NSwag_Starter.exe; Start-Sleep -Seconds 1; dotnet watch run
 ```
 
 After the app starts, navigate to: http://localhost:5098/swagger
@@ -49,3 +49,49 @@ dotnet tool install --global NSwag.ConsoleCore
 # Generate TypeScript API client from your API endpoints (uses nswag.json config)
 nswag run
 ```
+
+## Angular Client
+
+The generated TypeScript files are organized in the `ClientApp/src/app/` directory:
+
+### Folder Structure
+```
+ClientApp/src/app/
+├─ models/           ← DTOs/Interfaces (StudentDto)
+├─ services/         ← API Services (StudentsService)
+├─ core/             ← Shared utilities (API_BASE_URL, SwaggerException)
+└─ components/       ← Angular components (StudentsComponent)
+```
+
+### Running the Angular Application
+
+```bash
+# Navigate to the Angular app directory
+cd ClientApp
+
+# Install npm dependencies
+npm install
+
+# Start the development server
+ng serve
+
+# Or use npm script
+npm start
+```
+
+After the Angular app starts, navigate to: http://localhost:4200
+
+### Module Configuration
+
+Configure your Angular module with the generated services (see `app.module.example.ts`):
+
+```typescript
+providers: [
+  StudentsService,
+  { provide: API_BASE_URL, useValue: 'http://localhost:5098' }
+]
+```
+
+## Security Note
+
+CORS (Cross-Origin Resource Sharing) is configured in the API to allow the Angular app on `http://localhost:4200` to make requests to the API on `http://localhost:5098`. In production, update the CORS policy in `Program.cs` to only allow your actual frontend domain (e.g., `https://yourdomain.com`) instead of localhost for security.

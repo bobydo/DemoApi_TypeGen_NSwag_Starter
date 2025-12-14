@@ -74,7 +74,7 @@ export class StudentsService implements IStudentsService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<StudentDto[]>(null as any);
+        return _observableOf<StudentDto[]>([]);
     }
 }
 

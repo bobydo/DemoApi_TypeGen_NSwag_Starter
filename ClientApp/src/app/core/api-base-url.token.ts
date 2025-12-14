@@ -7,6 +7,6 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { OpaqueToken } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');

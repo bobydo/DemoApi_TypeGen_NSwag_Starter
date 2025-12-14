@@ -49,3 +49,8 @@ D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Core.Yaml.dll
 D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Generation.dll
 D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Generation.AspNetCore.dll
 D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\YamlDotNet.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\ClientApp\angular.json
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\ClientApp\package-lock.json
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\ClientApp\package.json
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\ClientApp\tsconfig.app.json
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\ClientApp\tsconfig.json
