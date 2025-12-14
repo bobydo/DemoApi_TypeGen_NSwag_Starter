@@ -35,3 +35,17 @@ D:\DemoApi_TypeGen_NSwag_Starter\obj\Debug\net9.0\refint\DemoApi_TypeGen_NSwag_S
 D:\DemoApi_TypeGen_NSwag_Starter\obj\Debug\net9.0\DemoApi_TypeGen_NSwag_Starter.pdb
 D:\DemoApi_TypeGen_NSwag_Starter\obj\Debug\net9.0\DemoApi_TypeGen_NSwag_Starter.genruntimeconfig.cache
 D:\DemoApi_TypeGen_NSwag_Starter\obj\Debug\net9.0\ref\DemoApi_TypeGen_NSwag_Starter.dll
+D:\DemoApi_TypeGen_NSwag_Starter\obj\Debug\net9.0\DemoApi_TypeGen_NSwag_Starter.sourcelink.json
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\Namotion.Reflection.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\Newtonsoft.Json.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NJsonSchema.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NJsonSchema.Annotations.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NJsonSchema.NewtonsoftJson.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NJsonSchema.Yaml.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Annotations.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.AspNetCore.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Core.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Core.Yaml.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Generation.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\NSwag.Generation.AspNetCore.dll
+D:\DemoApi_TypeGen_NSwag_Starter\bin\Debug\net9.0\YamlDotNet.dll

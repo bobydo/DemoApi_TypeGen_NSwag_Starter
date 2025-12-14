@@ -1,0 +1,41 @@
+<div class="students-container">
+  <div class="header">
+    <h2>Students</h2>
+    <button (click)="refresh()" [disabled]="loading">
+      {{ loading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    Loading students...
+  </div>
+
+  <div *ngIf="!loading && students.length === 0" class="no-data">
+    No students found.
+  </div>
+
+  <table *ngIf="!loading && students.length > 0" class="students-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Active</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.id }}</td>
+        <td>{{ student.name }}</td>
+        <td>
+          <span [class.active]="student.active" [class.inactive]="!student.active">
+            {{ student.active ? 'Yes' : 'No' }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
