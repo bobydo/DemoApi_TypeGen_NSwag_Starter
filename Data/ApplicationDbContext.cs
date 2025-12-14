@@ -1,5 +1,6 @@
 using Demo.Api.Data.Entities;
 using Demo.Api.Data.Configurations;
+using Demo.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Api.Data;

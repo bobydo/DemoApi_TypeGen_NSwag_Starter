@@ -43,12 +43,7 @@ public class StudentsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<StudentDto>> CreateStudent(CreateStudentRequest request)
     {
-        // Validate at least one address is provided
-        if (request.Addresses == null || request.Addresses.Count == 0)
-        {
-            return BadRequest("At least one address is required");
-        }
-
+        // FluentValidation automatically validates and returns 400 if invalid
         var created = await _service.CreateStudentAsync(request);
         return CreatedAtAction(nameof(GetStudent), new { id = created.StudentId }, created);
     }

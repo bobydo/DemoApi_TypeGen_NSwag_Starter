@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f255664b2d68b4dced9e118c9401489561affece")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe87a378027da3e844390f67144088d9fb9edc16")]
 [assembly: System.Reflection.AssemblyProductAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DemoApi_TypeGen_NSwag_Starter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

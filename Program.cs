@@ -1,5 +1,7 @@
 using Demo.Api.Data;
 using Demo.Api.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
@@ -22,6 +24,10 @@ builder.Services.AddCors(options =>
 
 // Controllers
 builder.Services.AddControllers();
+
+// FluentValidation - automatically validates DTOs
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 // Your services
 builder.Services.AddScoped<IStudentService, StudentService>();

@@ -30,7 +30,7 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
             .IsRequired()
             .HasMaxLength(100);
 
-        // Relationship: Each Address belongs to one Student
+        // Relationship: Each Address belongs to one Student => ON DELETE CASCADE
         // When Student is deleted, all its Addresses are automatically deleted (cascade)
         builder.HasOne(a => a.Student)
             .WithMany(s => s.Addresses)

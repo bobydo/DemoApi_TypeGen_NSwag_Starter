@@ -1,8 +1,7 @@
 using Demo.Api.Models;
 using Demo.Api.Services;
+using Demo.Api.Validators;
 using Microsoft.AspNetCore.Mvc;
-
-namespace Demo.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -75,8 +74,12 @@ public class AddressesController : ControllerBase
     /// Delete an address
     /// </summary>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAddress(int id)
+    public async Task<IActionResult> DeleteAddress(int id, [FromServices] DeleteAddressValidator validator)
     {
+        var validationResult = await validator.ValidateAsync(id);
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
         var deleted = await _addressService.DeleteAddressAsync(id);
         if (!deleted)
             return NotFound();
