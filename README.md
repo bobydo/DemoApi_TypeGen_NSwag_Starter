@@ -1,16 +1,29 @@
 # DemoApi_TypeGen_NSwag_Starter
 
-DemoApi/
-├─ Models/
-│  └─ StudentDto.cs          ← for TypeGen (C# → TS models)
-├─ Services/
-│  ├─ IStudentService.cs
-│  └─ StudentService.cs
-├─ Controllers/
-│  └─ StudentsController.cs  ← for NSwag (API → TS client)
-├─ Program.cs
-├─ typegen.json              ← TypeGen config
-└─ nswag.json                ← NSwag config
+DemoApi_TypeGen_NSwag_Starter/
+├─ src/
+│  └─ DemoApi_TypeGen_NSwag_Starter/
+│     ├─ Models/
+│     │  └─ StudentDto.cs          ← for TypeGen (C# → TS models)
+│     ├─ Services/
+│     │  ├─ IStudentService.cs
+│     │  └─ StudentService.cs
+│     ├─ Controllers/
+│     │  └─ StudentsController.cs  ← for NSwag (API → TS client)
+│     ├─ Data/
+│     │  ├─ Entities/
+│     │  ├─ Configurations/
+│     │  └─ ApplicationDbContext.cs
+│     ├─ Validators/
+│     ├─ ClientApp/                ← Angular application
+│     ├─ Program.cs
+│     ├─ typegen.json              ← TypeGen config
+│     └─ nswag.json                ← NSwag config
+└─ tests/
+   └─ DemoApi.Tests/
+      ├─ Services/
+      ├─ Validators/
+      └─ Helpers/
 
 ## Setup & Run
 
@@ -18,8 +31,8 @@ DemoApi/
 # Restore NuGet packages and dependencies
 dotnet restore
 
-# Run the application with hot reload (auto-restart on file changes)
-taskkill /F /IM DemoApi_TypeGen_NSwag_Starter.exe; Start-Sleep -Seconds 1; dotnet watch run
+# from root directory:
+dotnet watch run --project src/DemoApi_TypeGen_NSwag_Starter
 ```
 
 After the app starts, navigate to: http://localhost:5098/swagger
@@ -35,8 +48,9 @@ After the app starts, navigate to: http://localhost:5098/swagger
 
 **If you still want to try TypeGen:**
 ```bash
-# The configuration is in typegen.json, but the tool requires .NET Core 2.2
+# The configuration is in src/DemoApi_TypeGen_NSwag_Starter/typegen.json
 dotnet tool install --global TypeGen.DotNetCli
+cd src/DemoApi_TypeGen_NSwag_Starter
 dotnet typegen generate
 ```
 
@@ -47,16 +61,17 @@ dotnet typegen generate
 dotnet tool install --global NSwag.ConsoleCore
 
 # Generate TypeScript API client from your API endpoints (uses nswag.json config)
+cd src/DemoApi_TypeGen_NSwag_Starter
 nswag run
 ```
 
 ## Angular Client
 
-The generated TypeScript files are organized in the `ClientApp/src/app/` directory:
+The generated TypeScript files are organized in the `src/DemoApi_TypeGen_NSwag_Starter/ClientApp/src/app/` directory:
 
 ### Folder Structure
 ```
-ClientApp/src/app/
+src/DemoApi_TypeGen_NSwag_Starter/ClientApp/src/app/
 ├─ models/           ← DTOs/Interfaces (StudentDto)
 ├─ services/         ← API Services (StudentsService)
 ├─ core/             ← Shared utilities (API_BASE_URL, SwaggerException)
@@ -67,7 +82,7 @@ ClientApp/src/app/
 
 ```bash
 # Navigate to the Angular app directory
-cd ClientApp
+cd src/DemoApi_TypeGen_NSwag_Starter/ClientApp
 
 # Install npm dependencies
 npm install
@@ -98,7 +113,7 @@ CORS (Cross-Origin Resource Sharing) is configured in the API to allow the Angul
 
 ## Screenshot
 
-![Angular Client Running](images/app-screenshot.png)
+![Angular Client Running](src/DemoApi_TypeGen_NSwag_Starter/images/app-screenshot.png)
 
 *Angular client successfully connected to the .NET API, displaying student data*
 
@@ -108,6 +123,7 @@ CORS (Cross-Origin Resource Sharing) is configured in the API to allow the Angul
 
 ```bash
 # Install EF Core (compatible with .NET 9.0)
+cd src/DemoApi_TypeGen_NSwag_Starter
 dotnet add package Microsoft.EntityFrameworkCore --version 9.0.0
 # Install SQL Server provider
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 9.0.0
@@ -118,10 +134,15 @@ dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.0
 ### 2. Project Structure
 
 ```
-Data/
-├─ Entities/              ← Database entities (Student, Address)
-├─ Configurations/        ← Fluent API configurations
-└─ ApplicationDbContext.cs
+src/DemoApi_TypeGen_NSwag_Starter/
+├─ Data/
+│  ├─ Entities/              ← Database entities (Student, Address)
+│  ├─ Configurations/        ← Fluent API configurations
+│  └─ ApplicationDbContext.cs
+├─ Models/                   ← DTOs (StudentDto, AddressDto, CreateStudentRequest)
+├─ Services/                 ← Business logic
+├─ Validators/               ← FluentValidation validators
+└─ Controllers/              ← API endpoints
 ```
 
 ### 3. Configure Connection String (User Secrets)
@@ -129,15 +150,20 @@ Data/
 For security, store connection strings outside the project using User Secrets:
 
 ```bash
+# Navigate to project directory
+cd src/DemoApi_TypeGen_NSwag_Starter
+
 # Initialize User Secrets for the project
 dotnet user-secrets init
 
 # Set SQL Server connection string
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=YOUR_SERVER\\SQLEXPRESS;Database=XXX;Trusted_Connection=True;TrustServerCertificate=True;"
 
-<UserSecretsId>da6e5f64-13c1-4629-b98b-0f2f7606b3b8</UserSecretsId>
+# View the UserSecretsId in your .csproj file:
+# <UserSecretsId>da6e5f64-13c1-4629-b98b-0f2f7606b3b8</UserSecretsId>
 
-notepad "C:\Users\baosh\AppData\Roaming\Microsoft\UserSecrets\da6e5f64-13c1-4629-b98b-0f2f7606b3b8\secrets.json"
+# Edit secrets file directly (optional):
+notepad "%APPDATA%\Microsoft\UserSecrets\da6e5f64-13c1-4629-b98b-0f2f7606b3b8\secrets.json"
 ```
 
 **Note:** Replace `YOUR_SERVER` with your actual SQL Server instance name. User Secrets are stored in:
@@ -160,6 +186,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 # Install EF Core CLI tools globally (if not already installed)
 dotnet tool install --global dotnet-ef --version 9.0.0
 
+# Navigate to project directory (or use --project flag)
+cd src/DemoApi_TypeGen_NSwag_Starter
+
 # Create initial migration
 dotnet ef migrations add InitialCreate
 
@@ -174,6 +203,10 @@ dotnet ef migrations remove
 
 # Rollback all migrations (reset database)
 dotnet ef database update 0
+
+# Or run from root directory with --project flag:
+dotnet ef migrations add InitialCreate --project src/DemoApi_TypeGen_NSwag_Starter
+dotnet ef database update --project src/DemoApi_TypeGen_NSwag_Starter
 ```
 
 **About __EFMigrationsHistory Table:**
@@ -183,4 +216,40 @@ EF Core automatically creates a `__EFMigrationsHistory` table in your database t
 - Seed data inserted during migration won't be duplicated
 - Multiple developers can sync database schema changes
 - You can safely run `dotnet ef database update` multiple times - it only applies new migrations
+
+## Testing
+
+### Running Tests
+
+```bash
+# Run all tests
+dotnet test
+
+# Run tests with detailed output
+dotnet test --verbosity detailed
+
+# Run tests in a specific project
+dotnet test tests/DemoApi.Tests
+
+# Run specific test class
+dotnet test --filter "FullyQualifiedName~CreateStudentRequestValidatorTests"
+```
+
+### Test Structure
+
+```
+tests/DemoApi.Tests/
+├─ Services/
+│  ├─ StudentServiceTests.cs
+│  └─ AddressServiceTests.cs
+├─ Validators/
+│  └─ CreateStudentRequestValidatorTests.cs
+└─ Helpers/
+   └─ TestDbContextFactory.cs
+```
+
+The test project includes:
+- **Service Tests**: Test business logic and data operations using in-memory SQLite database
+- **Validator Tests**: Test FluentValidation rules with edge cases
+- **Integration Tests**: Test full workflows (create, update, delete) with validation
 
