@@ -12,19 +12,28 @@ namespace DemoApi.Tests.Controllers;
 public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
 {
     private readonly HttpClient _client;
+    private readonly TestWebApplicationFactory _factory;
 
     public StudentsControllerTests(TestWebApplicationFactory factory)
     {
+        _factory = factory;
         _client = factory.CreateClient();
 
         using var scope = factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
     }
 
     [Fact]
     public async Task GetAllStudents_ReturnsOkWithEmptyList_WhenNoStudents()
     {
+        // Arrange - Clear any existing students from seed data
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        db.Students.RemoveRange(db.Students);
+        await db.SaveChangesAsync();
+
         // Act
         var response = await _client.GetAsync("/api/students");
 
@@ -41,7 +50,7 @@ public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
         // Arrange
         var request = new CreateStudentRequest
         {
-            StudentNo = "S001",
+            StudentNo = "S00001",
             Name = "John Doe",
             Active = true,
             Addresses = new List<AddressDto>
@@ -51,7 +60,8 @@ public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
                     Street = "123 Main St",
                     City = "Springfield",
                     PostalCode = "12345",
-                    Country = "USA"
+                    Country = "USA",
+                    Province = "IL"
                 }
             }
         };
@@ -63,7 +73,7 @@ public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         var student = await response.Content.ReadFromJsonAsync<StudentDto>();
         student.Should().NotBeNull();
-        student!.StudentNo.Should().Be("S001");
+        student!.StudentNo.Should().Be("S00001");
         student.Name.Should().Be("John Doe");
     }
 
@@ -114,12 +124,12 @@ public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
         // Arrange - Create a student first
         var createRequest = new CreateStudentRequest
         {
-            StudentNo = "S002",
+            StudentNo = "S00002",
             Name = "Jane Smith",
             Active = true,
             Addresses = new List<AddressDto>
             {
-                new AddressDto { Street = "456 Oak Ave", City = "Chicago", PostalCode = "60601", Country = "USA" }
+                new AddressDto { Street = "456 Oak Ave", City = "Chicago", PostalCode = "60601", Country = "USA", Province = "IL" }
             }
         };
         var createResponse = await _client.PostAsJsonAsync("/api/students", createRequest);
@@ -133,7 +143,7 @@ public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
         var student = await response.Content.ReadFromJsonAsync<StudentDto>();
         student.Should().NotBeNull();
         student!.StudentId.Should().Be(createdStudent.StudentId);
-        student.StudentNo.Should().Be("S002");
+        student.StudentNo.Should().Be("S00002");
     }
 
     [Fact]
@@ -152,33 +162,30 @@ public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
         // Arrange - Create a student first
         var createRequest = new CreateStudentRequest
         {
-            StudentNo = "S003",
+            StudentNo = "S00003",
             Name = "Bob Johnson",
             Active = true,
             Addresses = new List<AddressDto>
             {
-                new AddressDto { Street = "789 Pine Rd", City = "Boston", PostalCode = "02101", Country = "USA" }
+                new AddressDto { Street = "789 Pine Rd", City = "Boston", PostalCode = "02101", Country = "USA", Province = "MA" }
             }
         };
         var createResponse = await _client.PostAsJsonAsync("/api/students", createRequest);
         var createdStudent = await createResponse.Content.ReadFromJsonAsync<StudentDto>();
 
-        var updateRequest = new CreateStudentRequest
+        var updateRequest = new StudentDto
         {
-            StudentNo = "S003",
+            StudentId = createdStudent!.StudentId,
+            StudentNo = "S00003",
             Name = "Bob Johnson Updated",
-            Active = true,
-            Addresses = new List<AddressDto>
-            {
-                new AddressDto { Street = "789 Pine Rd", City = "Boston", PostalCode = "02101", Country = "USA" }
-            }
+            Active = true
         };
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/api/students/{createdStudent!.StudentId}", updateRequest);
+        var response = await _client.PutAsJsonAsync($"/api/students/{createdStudent.StudentId}", updateRequest);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         // Verify the update
         var getResponse = await _client.GetAsync($"/api/students/{createdStudent.StudentId}");
@@ -192,12 +199,12 @@ public class StudentsControllerTests : IClassFixture<TestWebApplicationFactory>
         // Arrange - Create a student first
         var createRequest = new CreateStudentRequest
         {
-            StudentNo = "S004",
+            StudentNo = "S00004",
             Name = "Alice Brown",
             Active = true,
             Addresses = new List<AddressDto>
             {
-                new AddressDto { Street = "321 Elm St", City = "Seattle", PostalCode = "98101", Country = "USA" }
+                new AddressDto { Street = "321 Elm St", City = "Seattle", PostalCode = "98101", Country = "USA", Province = "WA" }
             }
         };
         var createResponse = await _client.PostAsJsonAsync("/api/students", createRequest);

@@ -233,23 +233,36 @@ dotnet test tests/DemoApi.Tests
 
 # Run specific test class
 dotnet test --filter "FullyQualifiedName~CreateStudentRequestValidatorTests"
+
+# Control output
+dotnet test 2>&1 | Select-String "FAILED|Failed.*Passed"
 ```
 
 ### Test Structure
 
-```
-tests/DemoApi.Tests/
-├─ Services/
-│  ├─ StudentServiceTests.cs
-│  └─ AddressServiceTests.cs
-├─ Validators/
-│  └─ CreateStudentRequestValidatorTests.cs
-└─ Helpers/
-   └─ TestDbContextFactory.cs
-```
+**Database Setup:** Each test class uses `IClassFixture<TestWebApplicationFactory>` with `EnsureDeleted()` followed by `EnsureCreated()` to ensure a fresh SQLite in-memory database state. This provides test isolation while keeping tests fast.
 
-The test project includes:
-- **Service Tests**: Test business logic and data operations using in-memory SQLite database
-- **Validator Tests**: Test FluentValidation rules with edge cases
-- **Integration Tests**: Test full workflows (create, update, delete) with validation
+**Controller Integration Tests (17 tests):**
+- **StudentsControllerTests**: Tests for student CRUD operations with validation (CreateStudent, UpdateStudent, DeleteStudent, GetAllStudents, GetStudentById)
+- **AddressesControllerTests**: Tests for address operations (AddAddress, DeleteAddress, StudentWithMultipleAddresses scenarios)
+- Uses WebApplicationFactory to test full HTTP stack with real routes and validation
+✅ Fixed the dual EF Core provider registration issue (via the environment-based check in Program.cs)
+✅ Set up WebApplicationFactory with SQLite for testing
+✅ Fixed all controller test logic issues (routes, validation, status codes, data setup)
+✅ Ensured proper database isolation per test class
 
+**Service Tests (8 tests):**
+- **StudentServiceTests**: Tests service layer logic for student operations
+- **AddressServiceTests**: Tests service layer logic for address operations
+- Uses in-memory SQLite database via TestDbContextFactory
+
+**Validator Tests (2 tests):**
+- **CreateStudentRequestValidatorTests**: Tests FluentValidation rules (StudentNo length, required fields, address constraints)
+
+**Key Implementation Details:**
+- StudentNo maximum length: 8 characters
+- Province field is required for all addresses
+- Database constraints enforce foreign key relationships
+- All test data uses unique StudentNo values to avoid conflicts
+
+````

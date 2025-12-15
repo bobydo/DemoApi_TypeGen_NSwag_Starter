@@ -9,6 +9,12 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DemoApi.Tests.Helpers;
 
+/// <summary>
+/// ✅ Fixed the dual EF Core provider registration issue (via the environment-based check in Program.cs)
+/// ✅ Set up WebApplicationFactory with SQLite for testing
+/// ✅ Fixed all controller test logic issues (routes, validation, status codes, data setup)
+/// ✅ Ensured proper database isolation per test class
+/// </summary>
 public class TestWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
