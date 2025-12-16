@@ -1,0 +1,24 @@
+# Scoped rules for generated NSwag client under Spec/
+root = false
+
+[*.cs]
+# Silence common generated-code warnings for this folder
+# Documentation and nullability noise
+dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.CS8618.severity = none
+# Nullable flow warnings frequently triggered in generated code
+dotnet_diagnostic.CS8600.severity = none
+dotnet_diagnostic.CS8602.severity = none
+dotnet_diagnostic.CS8603.severity = none
+dotnet_diagnostic.CS8604.severity = none
+dotnet_diagnostic.CS8625.severity = none
+dotnet_diagnostic.CS8765.severity = none
+# Misc compatibility/obsolescence hiders seen in NSwag output
+dotnet_diagnostic.CS0108.severity = none
+dotnet_diagnostic.CS0114.severity = none
+dotnet_diagnostic.CS0472.severity = none
+dotnet_diagnostic.CS0612.severity = none
+dotnet_diagnostic.CS0649.severity = none
+dotnet_diagnostic.CS1573.severity = none
+dotnet_diagnostic.CS3016.severity = none
+dotnet_diagnostic.CS8073.severity = none

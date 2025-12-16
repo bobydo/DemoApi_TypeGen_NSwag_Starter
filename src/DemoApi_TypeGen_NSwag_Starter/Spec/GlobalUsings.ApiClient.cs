@@ -1,0 +1,1 @@
+global using Demo.Api.Models;

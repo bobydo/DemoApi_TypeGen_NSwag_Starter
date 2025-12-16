@@ -17,7 +17,7 @@ public class AddressesControllerTests : IClassFixture<TestWebApplicationFactory>
     public AddressesControllerTests(TestWebApplicationFactory factory)
     {
         _factory = factory;
-        _client = factory.CreateClient();        dotnet test 2>&1 | Select-String "FAILED|Failed.*Passed"
+        _client = factory.CreateClient();
 
         using var scope = factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -113,6 +113,7 @@ public class AddressesControllerTests : IClassFixture<TestWebApplicationFactory>
         // so this test is skipped since FK constraint will cause a 500 error rather than 404.
         // In a production system, the service should be enhanced to validate student existence first.
         Assert.True(true); // Placeholder - this test scenario requires service-level validation
+        await Task.CompletedTask;
     }
 
     [Fact]
