@@ -62,3 +62,10 @@ Why this is useful:
 Notes:
 - The config in Spec/nswag.json is intentionally minimal (only non-defaults). Some tools (e.g., NSwag Studio “Save”) will re-expand defaults when exporting; prefer editing the JSON manually to keep it lean.
 - Using Newtonsoft.Json requires the package reference in the web project. This repo includes it in src/DemoApi_TypeGen_NSwag_Starter/DemoApi_TypeGen_NSwag_Starter.csproj.
+- Where does the Swagger URL come from? The app listens on the URLs defined in src/DemoApi_TypeGen_NSwag_Starter/Properties/launchSettings.json (e.g., http://localhost:5098). Swashbuckle serves the OpenAPI at /swagger/v1/swagger.json, so the full URL is http://localhost:5098/swagger/v1/swagger.json when the app is running. With the project-based generator (aspNetCoreToOpenApi) in nswag.json, you don’t need the app running; NSwag builds the project to produce the spec.
+
+#### Project-based generator vs URL
+
+- The `documentGenerator.aspNetCoreToOpenApi.project` setting in Spec/nswag.json points to the web project. NSwag compiles the project and uses Swashbuckle to produce the same OpenAPI JSON you’d get live at http://localhost:5098/swagger/v1/swagger.json.
+- The live URL is defined by the `applicationUrl` values in src/DemoApi_TypeGen_NSwag_Starter/Properties/launchSettings.json and the Swagger endpoint path `/swagger/v1/swagger.json`.
+- Benefit: with project-based generation you don’t need to run the app to regenerate clients; with URL-based generation you must have the app running on the specified port.

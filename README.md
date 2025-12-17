@@ -37,6 +37,22 @@ dotnet watch run --project src/DemoApi_TypeGen_NSwag_Starter
 
 After the app starts, navigate to: http://localhost:5098/swagger
 
+### NSwag Config (Keeping it Minimal)
+
+The NSwag config lives at [src/DemoApi_TypeGen_NSwag_Starter/Spec/nswag.json](src/DemoApi_TypeGen_NSwag_Starter/Spec/nswag.json) and is intentionally minimal — only non-default options are kept for clarity. Some tools (like NSwag Studio "Save" or export) will re-expand defaults into the JSON; prefer editing the file manually if you want to keep it lean.
+
+Key choices:
+- **Serializer**: C# client uses Newtonsoft.Json (see [src/DemoApi_TypeGen_NSwag_Starter/DemoApi_TypeGen_NSwag_Starter.csproj](src/DemoApi_TypeGen_NSwag_Starter/DemoApi_TypeGen_NSwag_Starter.csproj) for the package reference).
+- **DTO reuse**: The C# client sets `generateDtoTypes=false` and reuses models from [src/DemoApi_TypeGen_NSwag_Starter/Models](src/DemoApi_TypeGen_NSwag_Starter/Models).
+- **Single client**: Operations are grouped via `SingleClientFromOperationId`.
+
+Regenerate both TS and C# clients:
+
+```powershell
+cd src\DemoApi_TypeGen_NSwag_Starter\Spec
+nswag run
+```
+
 ## Code Generation Tools
 
 ### TypeGen (C# Models → TypeScript Interfaces)

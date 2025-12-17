@@ -3,6 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "aspNetCoreToOpenApi": {
+      "_comment": "defined in src/DemoApi_TypeGen_NSwag_Starter/Properties/launchSettings.json",
       "project": "../DemoApi_TypeGen_NSwag_Starter.csproj",
       "documentName": "v1"
     }
