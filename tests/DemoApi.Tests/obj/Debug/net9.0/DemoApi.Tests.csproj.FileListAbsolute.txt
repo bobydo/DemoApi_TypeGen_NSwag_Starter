@@ -10,7 +10,6 @@ D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\ClientApp\
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\ClientApp\package.json
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\ClientApp\tsconfig.app.json
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\ClientApp\tsconfig.json
-D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\nswag.json
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\typegen.json
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\DemoApi_TypeGen_NSwag_Starter.staticwebassets.endpoints.json
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\DemoApi_TypeGen_NSwag_Starter.exe
@@ -507,3 +506,4 @@ D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\obj\Debug\net9.0\refint\Dem
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\obj\Debug\net9.0\DemoApi.Tests.pdb
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\obj\Debug\net9.0\DemoApi.Tests.genruntimeconfig.cache
 D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\obj\Debug\net9.0\ref\DemoApi.Tests.dll
+D:\DemoApi_TypeGen_NSwag_Starter\tests\DemoApi.Tests\bin\Debug\net9.0\Spec\nswag.json

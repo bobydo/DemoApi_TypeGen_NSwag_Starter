@@ -1,0 +1,35 @@
+{
+  "runtime": "Net90",
+  "defaultVariables": null,
+  "documentGenerator": {
+    "aspNetCoreToOpenApi": {
+      "project": "../DemoApi_TypeGen_NSwag_Starter.csproj",
+      "documentName": "v1"
+    }
+  },
+  "codeGenerators": {
+    "openApiToTypeScriptClient": {
+      "className": "StudentsApiService",
+      "template": "Angular",
+      "generateClientInterfaces": true,
+      "generateOptionalParameters": true,
+      "output": "ClientApp/src/app/services/students-api.service.ts"
+    },
+    "openApiToCSharpClient": {
+      "className": "StudentApiClient",
+      "namespace": "DemoApi_TypeGen_NSwag_Starter.Spec",
+      "output": "GatewayClient.cs",
+      "jsonLibrary": "NewtonsoftJson",
+      "generateDtoTypes": false,
+      "generateClientInterfaces": true,
+      "generateOptionalParameters": true,
+      "useBaseUrl": false,
+      "generateJsonMethods": false,
+      "generateDataAnnotations": false,
+      "operationGenerationMode": "SingleClientFromOperationId",
+      "additionalContractNamespaceUsages": [
+        "Demo.Api.Models"
+      ]
+    }
+  }
+}

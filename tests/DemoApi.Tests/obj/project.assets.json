@@ -2507,6 +2507,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.0",
           "Microsoft.OpenApi": "1.6.17",
           "NSwag.AspNetCore": "14.6.3",
+          "Newtonsoft.Json": "13.0.3",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
         "compile": {

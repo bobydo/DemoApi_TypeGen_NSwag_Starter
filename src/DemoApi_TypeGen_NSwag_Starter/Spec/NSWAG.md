@@ -14,7 +14,7 @@ nswag openapi2csclient /input:http://localhost:5098/swagger/v1/swagger.json \
 	/classname:StudentApiClient \
 	/namespace:DemoApi_TypeGen_NSwag_Starter.Spec \
 	/output:Spec\GatewayClient.cs \
-	/JsonLibrary:SystemTextJson \
+	/JsonLibrary:NewtonsoftJson \
 	/GenerateDtoTypes:false \
 	/GenerateClientInterfaces:true \
 	/GenerateOptionalParameters:true \
@@ -58,3 +58,7 @@ Why this is useful:
 - Compile-time safety
 - Client always matches backend API
 - Ideal for gateways, microservices, and integration tests
+
+Notes:
+- The config in Spec/nswag.json is intentionally minimal (only non-defaults). Some tools (e.g., NSwag Studio “Save”) will re-expand defaults when exporting; prefer editing the JSON manually to keep it lean.
+- Using Newtonsoft.Json requires the package reference in the web project. This repo includes it in src/DemoApi_TypeGen_NSwag_Starter/DemoApi_TypeGen_NSwag_Starter.csproj.

@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.OpenApi" Version="1.6.17" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>
