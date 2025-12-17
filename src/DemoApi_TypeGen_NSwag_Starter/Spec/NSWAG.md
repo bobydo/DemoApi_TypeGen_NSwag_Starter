@@ -69,3 +69,79 @@ Notes:
 - The `documentGenerator.aspNetCoreToOpenApi.project` setting in Spec/nswag.json points to the web project. NSwag compiles the project and uses Swashbuckle to produce the same OpenAPI JSON you’d get live at http://localhost:5098/swagger/v1/swagger.json.
 - The live URL is defined by the `applicationUrl` values in src/DemoApi_TypeGen_NSwag_Starter/Properties/launchSettings.json and the Swagger endpoint path `/swagger/v1/swagger.json`.
 - Benefit: with project-based generation you don’t need to run the app to regenerate clients; with URL-based generation you must have the app running on the specified port.
+## Custom Template for Type Annotations
+
+### Problem
+NSwag's default Angular template generates arrow function parameters without explicit type annotations when TypeScript can infer the type, leading to inconsistent code style:
+```typescript
+// Some parameters have explicit types:
+.pipe(_observableMergeMap((_responseText: string) => {
+
+// Others rely on inference (no explicit type):
+.pipe(_observableMergeMap(_responseText => {
+```
+
+### Solution
+Created a custom Liquid template that enforces explicit type annotations during generation.
+
+**Files:**
+- `Spec/Client.ProcessResponse.ReadBodyStart.liquid` - Custom template that adds `: string` to all `_responseText` parameters
+- `Spec/nswag.json` - Updated with `"templateDirectory": "."` to use custom templates
+
+**Configuration in nswag.json:**
+```json
+"openApiToTypeScriptClient": {
+  "template": "Angular",
+  "templateDirectory": ".",
+  "output": "ClientApp/src/app/services/students-api.service.ts"
+}
+```
+
+**Result:**
+All arrow function parameters now have explicit type annotations:
+```typescript
+return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+```
+
+## Referencing ClientApp's node_modules from Spec
+
+### Problem
+Want to validate generated TypeScript files in Spec without installing duplicate packages.
+
+### Solution
+Configure TypeScript to reference ClientApp's `node_modules` using path mapping.
+
+**Files:**
+- `Spec/tsconfig.json` - TypeScript configuration with path mappings
+
+**Configuration in Spec/tsconfig.json:**
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "../ClientApp",
+    "paths": {
+      "rxjs": ["node_modules/rxjs"],
+      "rxjs/*": ["node_modules/rxjs/*"],
+      "@angular/*": ["node_modules/@angular/*"]
+    },
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "ClientApp/src/**/*.ts"
+  ]
+}
+```
+
+**Validate TypeScript without installing packages in Spec:**
+```powershell
+# Run from ClientApp directory to use its node_modules
+cd src\DemoApi_TypeGen_NSwag_Starter\ClientApp
+npx tsc --noEmit --project ../Spec/tsconfig.json
+```
+
+**Benefits:**
+- ✅ No duplicate `node_modules` installation in Spec
+- ✅ Use existing Angular/RxJS packages from ClientApp
+- ✅ Validate generated code type-safety
+- ✅ Single source of truth for package versions

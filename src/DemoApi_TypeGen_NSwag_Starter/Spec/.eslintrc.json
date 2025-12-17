@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "extends": [
+    "../ClientApp/.eslintrc.json"
+  ],
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "ignorePatterns": []
+}

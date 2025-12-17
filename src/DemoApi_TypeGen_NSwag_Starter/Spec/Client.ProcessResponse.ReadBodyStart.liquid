@@ -1,0 +1,25 @@
+{% if Framework.IsFetchOrAurelia -%}
+return response.text().then((_responseText: string) => {
+{% elsif Framework.Angular.UseHttpClient -%}
+{%     if Framework.UseRxJs6 -%}
+return blobToText(responseBlob).pipe({{ Framework.RxJs.ObservableMergeMapMethod }}(({{ Framework.RxJs.ResponseTextProperty }}: string) => {
+{%     else -%}
+return blobToText(responseBlob).flatMap(({{ Framework.RxJs.ResponseTextProperty }}: string) => {
+{%     endif -%}
+{% elsif operation.RequestAngularBlobs -%}
+{%     if Framework.UseRxJs6 -%}
+return blobToText(response.blob()).pipe({{ Framework.RxJs.ObservableMergeMapMethod }}(({{ Framework.RxJs.ResponseTextProperty }}: string) => {
+{%     else -%}
+return blobToText(response.blob()).flatMap(({{ Framework.RxJs.ResponseTextProperty }}: string) => {
+{%     endif -%}
+{% elsif operation.RequestAngularJSBlobs -%}
+return blobToText(new Blob([response.data]), this.q).then(({{ Framework.RxJs.ResponseTextProperty }}: string) => {
+{% elsif Framework.IsAngular -%}
+const _responseText: string = response.text();
+{% elsif Framework.IsAngularJS -%}
+const _responseText: string = response.data;
+{% elsif Framework.IsAxios -%}
+const _responseText: string = response.data;
+{% else -%}
+const _responseText: string = xhr.responseText;
+{% endif -%}

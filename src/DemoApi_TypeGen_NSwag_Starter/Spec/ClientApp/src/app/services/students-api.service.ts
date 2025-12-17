@@ -15,12 +15,17 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
 
 export interface IStudentsApiService {
-    getAddresses(): Observable<AddressDto[]>;
-    createAddress(addressDto: AddressDto): Observable<AddressDto>;
-    getAddress(id: number): Observable<AddressDto>;
-    updateAddress(id: number, addressDto: AddressDto): Observable<AddressDto>;
-    deleteAddress(id: number): Observable<FileResponse>;
-    getAddressesByStudent(studentId: number): Observable<AddressDto[]>;
+    addresses_GetAddresses(): Observable<AddressDto[]>;
+    addresses_CreateAddress(addressDto: AddressDto): Observable<AddressDto>;
+    addresses_GetAddress(id: number): Observable<AddressDto>;
+    addresses_UpdateAddress(id: number, addressDto: AddressDto): Observable<AddressDto>;
+    addresses_DeleteAddress(id: number): Observable<FileResponse>;
+    addresses_GetAddressesByStudent(studentId: number): Observable<AddressDto[]>;
+    students_GetStudents(): Observable<StudentDto[]>;
+    students_CreateStudent(request: CreateStudentRequest): Observable<StudentDto>;
+    students_GetStudent(id: number): Observable<StudentDto>;
+    students_UpdateStudent(id: number, studentDto: StudentDto): Observable<StudentDto>;
+    students_DeleteStudent(id: number): Observable<FileResponse>;
 }
 
 @Injectable()
@@ -34,7 +39,7 @@ export class StudentsApiService implements IStudentsApiService {
         this.baseUrl = baseUrl ?? "";
     }
 
-    getAddresses(): Observable<AddressDto[]> {
+    addresses_GetAddresses(): Observable<AddressDto[]> {
         let url_ = this.baseUrl + "/api/Addresses";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -47,11 +52,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAddresses(response_);
+            return this.processAddresses_GetAddresses(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAddresses(response_ as any);
+                    return this.processAddresses_GetAddresses(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<AddressDto[]>;
                 }
@@ -60,7 +65,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processGetAddresses(response: HttpResponseBase): Observable<AddressDto[]> {
+    protected processAddresses_GetAddresses(response: HttpResponseBase): Observable<AddressDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -68,7 +73,7 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             if (Array.isArray(resultData200)) {
@@ -82,14 +87,14 @@ export class StudentsApiService implements IStudentsApiService {
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<AddressDto[]>(null as any);
     }
 
-    createAddress(addressDto: AddressDto): Observable<AddressDto> {
+    addresses_CreateAddress(addressDto: AddressDto): Observable<AddressDto> {
         let url_ = this.baseUrl + "/api/Addresses";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -106,11 +111,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateAddress(response_);
+            return this.processAddresses_CreateAddress(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateAddress(response_ as any);
+                    return this.processAddresses_CreateAddress(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<AddressDto>;
                 }
@@ -119,7 +124,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processCreateAddress(response: HttpResponseBase): Observable<AddressDto> {
+    protected processAddresses_CreateAddress(response: HttpResponseBase): Observable<AddressDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -127,21 +132,21 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = AddressDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<AddressDto>(null as any);
     }
 
-    getAddress(id: number): Observable<AddressDto> {
+    addresses_GetAddress(id: number): Observable<AddressDto> {
         let url_ = this.baseUrl + "/api/Addresses/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -157,11 +162,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAddress(response_);
+            return this.processAddresses_GetAddress(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAddress(response_ as any);
+                    return this.processAddresses_GetAddress(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<AddressDto>;
                 }
@@ -170,7 +175,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processGetAddress(response: HttpResponseBase): Observable<AddressDto> {
+    protected processAddresses_GetAddress(response: HttpResponseBase): Observable<AddressDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -178,21 +183,21 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = AddressDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<AddressDto>(null as any);
     }
 
-    updateAddress(id: number, addressDto: AddressDto): Observable<AddressDto> {
+    addresses_UpdateAddress(id: number, addressDto: AddressDto): Observable<AddressDto> {
         let url_ = this.baseUrl + "/api/Addresses/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -212,11 +217,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateAddress(response_);
+            return this.processAddresses_UpdateAddress(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateAddress(response_ as any);
+                    return this.processAddresses_UpdateAddress(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<AddressDto>;
                 }
@@ -225,7 +230,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processUpdateAddress(response: HttpResponseBase): Observable<AddressDto> {
+    protected processAddresses_UpdateAddress(response: HttpResponseBase): Observable<AddressDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -233,21 +238,21 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = AddressDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<AddressDto>(null as any);
     }
 
-    deleteAddress(id: number): Observable<FileResponse> {
+    addresses_DeleteAddress(id: number): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/Addresses/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -263,11 +268,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteAddress(response_);
+            return this.processAddresses_DeleteAddress(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteAddress(response_ as any);
+                    return this.processAddresses_DeleteAddress(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<FileResponse>;
                 }
@@ -276,7 +281,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processDeleteAddress(response: HttpResponseBase): Observable<FileResponse> {
+    protected processAddresses_DeleteAddress(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -295,14 +300,14 @@ export class StudentsApiService implements IStudentsApiService {
             }
             return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<FileResponse>(null as any);
     }
 
-    getAddressesByStudent(studentId: number): Observable<AddressDto[]> {
+    addresses_GetAddressesByStudent(studentId: number): Observable<AddressDto[]> {
         let url_ = this.baseUrl + "/api/Addresses/student/{studentId}";
         if (studentId === undefined || studentId === null)
             throw new globalThis.Error("The parameter 'studentId' must be defined.");
@@ -318,11 +323,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAddressesByStudent(response_);
+            return this.processAddresses_GetAddressesByStudent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAddressesByStudent(response_ as any);
+                    return this.processAddresses_GetAddressesByStudent(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<AddressDto[]>;
                 }
@@ -331,7 +336,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processGetAddressesByStudent(response: HttpResponseBase): Observable<AddressDto[]> {
+    protected processAddresses_GetAddressesByStudent(response: HttpResponseBase): Observable<AddressDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -339,7 +344,7 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             if (Array.isArray(resultData200)) {
@@ -353,34 +358,14 @@ export class StudentsApiService implements IStudentsApiService {
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<AddressDto[]>(null as any);
     }
-}
 
-export interface IStudentsApiService {
-    getStudents(): Observable<StudentDto[]>;
-    createStudent(request: CreateStudentRequest): Observable<StudentDto>;
-    getStudent(id: number): Observable<StudentDto>;
-    updateStudent(id: number, studentDto: StudentDto): Observable<StudentDto>;
-    deleteStudent(id: number): Observable<FileResponse>;
-}
-
-@Injectable()
-export class StudentsApiService implements IStudentsApiService {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ?? "";
-    }
-
-    getStudents(): Observable<StudentDto[]> {
+    students_GetStudents(): Observable<StudentDto[]> {
         let url_ = this.baseUrl + "/api/Students";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -393,11 +378,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetStudents(response_);
+            return this.processStudents_GetStudents(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetStudents(response_ as any);
+                    return this.processStudents_GetStudents(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<StudentDto[]>;
                 }
@@ -406,7 +391,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processGetStudents(response: HttpResponseBase): Observable<StudentDto[]> {
+    protected processStudents_GetStudents(response: HttpResponseBase): Observable<StudentDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -414,7 +399,7 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             if (Array.isArray(resultData200)) {
@@ -428,14 +413,14 @@ export class StudentsApiService implements IStudentsApiService {
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<StudentDto[]>(null as any);
     }
 
-    createStudent(request: CreateStudentRequest): Observable<StudentDto> {
+    students_CreateStudent(request: CreateStudentRequest): Observable<StudentDto> {
         let url_ = this.baseUrl + "/api/Students";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -452,11 +437,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateStudent(response_);
+            return this.processStudents_CreateStudent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateStudent(response_ as any);
+                    return this.processStudents_CreateStudent(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<StudentDto>;
                 }
@@ -465,7 +450,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processCreateStudent(response: HttpResponseBase): Observable<StudentDto> {
+    protected processStudents_CreateStudent(response: HttpResponseBase): Observable<StudentDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -473,21 +458,21 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = StudentDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<StudentDto>(null as any);
     }
 
-    getStudent(id: number): Observable<StudentDto> {
+    students_GetStudent(id: number): Observable<StudentDto> {
         let url_ = this.baseUrl + "/api/Students/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -503,11 +488,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetStudent(response_);
+            return this.processStudents_GetStudent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetStudent(response_ as any);
+                    return this.processStudents_GetStudent(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<StudentDto>;
                 }
@@ -516,7 +501,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processGetStudent(response: HttpResponseBase): Observable<StudentDto> {
+    protected processStudents_GetStudent(response: HttpResponseBase): Observable<StudentDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -524,21 +509,21 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = StudentDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<StudentDto>(null as any);
     }
 
-    updateStudent(id: number, studentDto: StudentDto): Observable<StudentDto> {
+    students_UpdateStudent(id: number, studentDto: StudentDto): Observable<StudentDto> {
         let url_ = this.baseUrl + "/api/Students/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -558,11 +543,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateStudent(response_);
+            return this.processStudents_UpdateStudent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateStudent(response_ as any);
+                    return this.processStudents_UpdateStudent(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<StudentDto>;
                 }
@@ -571,7 +556,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processUpdateStudent(response: HttpResponseBase): Observable<StudentDto> {
+    protected processStudents_UpdateStudent(response: HttpResponseBase): Observable<StudentDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -579,21 +564,21 @@ export class StudentsApiService implements IStudentsApiService {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = StudentDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
         return _observableOf<StudentDto>(null as any);
     }
 
-    deleteStudent(id: number): Observable<FileResponse> {
+    students_DeleteStudent(id: number): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/Students/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
@@ -609,11 +594,11 @@ export class StudentsApiService implements IStudentsApiService {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteStudent(response_);
+            return this.processStudents_DeleteStudent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteStudent(response_ as any);
+                    return this.processStudents_DeleteStudent(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<FileResponse>;
                 }
@@ -622,7 +607,7 @@ export class StudentsApiService implements IStudentsApiService {
         }));
     }
 
-    protected processDeleteStudent(response: HttpResponseBase): Observable<FileResponse> {
+    protected processStudents_DeleteStudent(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -641,7 +626,7 @@ export class StudentsApiService implements IStudentsApiService {
             }
             return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
@@ -820,7 +805,7 @@ export interface FileResponse {
     headers?: { [name: string]: any };
 }
 
-export class ApiException extends Error {
+export class SwaggerException extends Error {
     override message: string;
     status: number;
     response: string;
@@ -837,10 +822,10 @@ export class ApiException extends Error {
         this.result = result;
     }
 
-    protected isApiException = true;
+    protected isSwaggerException = true;
 
-    static isApiException(obj: any): obj is ApiException {
-        return obj.isApiException === true;
+    static isSwaggerException(obj: any): obj is SwaggerException {
+        return obj.isSwaggerException === true;
     }
 }
 
@@ -848,7 +833,7 @@ function throwException(message: string, status: number, response: string, heade
     if (result !== null && result !== undefined)
         return _observableThrow(result);
     else
-        return _observableThrow(new ApiException(message, status, response, headers, null));
+        return _observableThrow(new SwaggerException(message, status, response, headers, null));
 }
 
 function blobToText(blob: any): Observable<string> {
