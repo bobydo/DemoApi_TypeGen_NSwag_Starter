@@ -281,4 +281,13 @@ dotnet test 2>&1 | Select-String "FAILED|Failed.*Passed"
 - Database constraints enforce foreign key relationships
 - All test data uses unique StudentNo values to avoid conflicts
 
-````
+
+# Cloudflared provides a secure tunneling service that exposes local or private services to the internet—without opening inbound ports.
+git clone https://github.com/cloudflare/cloudflared.git
+cd cloudflared
+go build ./cmd/cloudflared
+dotnet watch run --project src/DemoApi_TypeGen_NSwag_Starter --urls http://localhost:5098
+./cloudflared tunnel --url http://localhost:5098 --loglevel debug
+2026-01-03T02:05:27Z INF |  Your quick Tunnel has been created! Visit it at (it may take some time to be reachable):  |
+2026-01-03T02:05:27Z INF |  https://diamond-grades-taxation-correct.trycloudflare.com                                 |
+https://[domain]].trycloudflare.com/swagger/index.html
